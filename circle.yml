@@ -4,6 +4,12 @@ machine:
     USER: $CIRCLE_PROJECT_USERNAME
     IMPORT_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
     APP_PATH: $GOPATH/src/$IMPORT_PATH
+
+checkout:
+  post:
+    - rm -rf $APP_PATH
+    - mv ~/$PROJECT $APP_PATH
+    - ln -s $APP_PATH ~/$PROJECT
 # machine:
 #   environment:
 #     IMPORT_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
