@@ -1,3 +1,9 @@
+machine:
+  environment:
+    PROJECT: $CIRCLE_PROJECT_REPONAME
+    USER: $CIRCLE_PROJECT_USERNAME
+    IMPORT_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
+    APP_PATH: $HOME/.go_workspace/src/$IMPORT_PATH
 # machine:
 #   environment:
 #     IMPORT_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
@@ -10,9 +16,12 @@
 #   post:
 #     - cd "$GOPATH/src/$IMPORT_PATH" && git branch --set-upstream-to="origin/$CIRCLE_BRANCH" && go get -u -f -t ./...
 
+dependencies:
+  override:
+    - cd $APP_PATH && go get -u -f -t -v ./...
+
 test:
   pre:
-    - go get -u -f -t -v ./...
     - go vet ./...
   override:
     - go test ./... -race
